@@ -12,7 +12,7 @@ const generateToken = (length = 16) => {
     token += characters.charAt(Math.floor(Math.random() * characters.length));
   }
   return token;
-}
+};
 
 const findAll = () => {
   const data = fs.readFileSync(talker, 'utf8');
@@ -27,12 +27,15 @@ const findById = (id) => {
 };
 
 const loginToTokenReturn = (loginReq) => {
-  if (loginReq.email.length !== 0 && loginReq.password.length !== 0) {
-    return { token: `${generateToken()}` };
+  const emailRegex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+  if (!loginReq.email) return { errMessage: 'O campo "email" é obrigatório' };
+  if (!emailRegex.test(loginReq.email)) {
+    return { errMessage: 'O "email" deve ter o formato "email@email.com"' };
   }
+  if (!loginReq.password) return { errMessage: 'O campo "password" é obrigatório' };
+  if (loginReq.password > 6) return { errMessage: 'O "password" deve ter pelo menos 6 caracteres' };
+  return { token: `${generateToken()}`, errMessage: 'no error' };
 };
-
-  // const findAll = () => conn.execute('SELECT * FROM talkers');
 
 module.exports = {
   findAll,
