@@ -14,7 +14,9 @@ const loginToTokenReturn = (loginReq) => {
     return { errMessage: 'O "email" deve ter o formato "email@email.com"' };
   }
   if (!loginReq.password) return { errMessage: 'O campo "password" é obrigatório' };
-  if (loginReq.password > 6) return { errMessage: 'O "password" deve ter pelo menos 6 caracteres' };
+  if (loginReq.password.length < 6) {
+    return { errMessage: 'O "password" deve ter pelo menos 6 caracteres' };
+  }
   return { token: `${generateToken()}`, errMessage: 'no error' };
 };
 

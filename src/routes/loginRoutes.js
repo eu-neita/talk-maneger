@@ -4,10 +4,10 @@ const talkerDB = require('./db/loginDB');
 
 const loginRouter = express.Router();
 
-loginRouter.post('/', async (req, res) => {
+loginRouter.post('/', (req, res) => {
   const loginReq = req.body;
   try {
-    const result = await talkerDB.loginToTokenReturn(loginReq);
+    const result = talkerDB.loginToTokenReturn(loginReq);
     if (result.errMessage !== 'no error') {
       return res.status(400).json({ message: result.errMessage });
     }
