@@ -10,8 +10,16 @@ const findAll = () => {
   return JSON.parse(data);
 };
 
+const findById = (id) => {
+  const data = fs.readFileSync(talker, 'utf8');
+  const people = JSON.parse(data);
+  const person = people.find((personTalker) => Number(id) === personTalker.id);
+  return person;
+};
+
   // const findAll = () => conn.execute('SELECT * FROM talkers');
 
 module.exports = {
   findAll,
+  findById,
 };
