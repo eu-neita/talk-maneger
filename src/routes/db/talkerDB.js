@@ -1,31 +1,17 @@
-const conn = require('./connection');
+// const conn = require('./connection');
 
-  const findAll = () => conn.execute('SELECT * FROM talkers');
+const fs = require('fs');
+const path = require('path');
 
-// const insert = (todoList) => conn.execute(
-//     `INSERT INTO tasks 
-//       (nome, descricao) VALUES (?, ?)`,
-//     [todoList.nome, todoList.descricao],
-//   );
+const talker = path.join(__dirname, '../../talker.json');
 
-//   const update = (todoList, id) => conn.execute(
-//     `UPDATE tasks 
-//     SET nome = ?, descricao = ? WHERE id = ?`,
-//     [todoList.nome, todoList.descricao, id],
-//   );
+const findAll = () => {
+  const data = fs.readFileSync(talker, 'utf8');
+  return JSON.parse(data);
+};
 
-//   const remove = (id) => conn.execute(
-//     `DELETE FROM tasks
-//     WHERE id = ?`,
-//     [id],
-//   );
-
-  // const findById = (id) => conn.execute('SELECT * FROM tasks WHERE id = ?', [id]);
+  // const findAll = () => conn.execute('SELECT * FROM talkers');
 
 module.exports = {
   findAll,
-  // insert,
-  // update,
-  // remove,
-  // findById,
 };
