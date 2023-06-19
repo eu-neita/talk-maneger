@@ -1,6 +1,6 @@
 const express = require('express');
 
-const talkerDB = require('./db/talkerDB');
+const talkerDB = require('./db/loginDB');
 
 const loginRouter = express.Router();
 
