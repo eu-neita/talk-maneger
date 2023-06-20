@@ -1,6 +1,4 @@
-// const conn = require('./connection');
-
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 const talker = path.join(__dirname, '../../talker.json');
@@ -17,7 +15,22 @@ const findById = (id) => {
   return person;
 };
 
+const insert = async (talkerList) => {
+  try {
+    if (!talkerList.name) return 'Nome não encontrado';
+    const data = await fs.readFile(talker, 'utf8');
+    const json = JSON.parse(data);
+    json.push(talkerList);
+    const toString = JSON.stringify(json);
+    await fs.writeFile(talker, toString);
+    return 'Arquivo escrito com sucesso!';
+  } catch (err) {
+    console.error(`Erro ao escrever o arquivo: ${err.message}`);
+  }
+};
+
 module.exports = {
   findAll,
   findById,
+  insert,
 };

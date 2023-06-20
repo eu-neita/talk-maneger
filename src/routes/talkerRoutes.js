@@ -28,4 +28,19 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  const talkerList = req.body;
+  try {
+    if (!talkerList.token) return res.status(401).json({ message: 'Token não encontrado' });
+    const result = await talkerDB.insert(talkerList);
+    if (result !== 'Arquivo escrito com sucesso!') {
+      return res.status(400).json({ message: result });
+    }
+    res.status(200).json({ message: result });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Ocorreu um erro ao cadastrar uma tarefa' });
+  }
+});
+
 module.exports = router;
