@@ -15,9 +15,15 @@ const findById = (id) => {
   return person;
 };
 
+const insertValidations = (talkerList) => {
+  if (!talkerList.name) return 'O campo "name" é obrigatório';
+  if (!talkerList.age) return 'O campo "age" é obrigatório';
+  // if (!talkerList.age) return 'O campo "name" é obrigatório';
+};
+
 const insert = async (talkerList) => {
   try {
-    if (!talkerList.name) return 'Nome não encontrado';
+    insertValidations(talkerList);
     const data = await fs.readFile(talker, 'utf8');
     const json = JSON.parse(data);
     json.push(talkerList);

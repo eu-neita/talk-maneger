@@ -30,8 +30,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const talkerList = req.body;
+  const tokenHeader = req.headers.authorization;
+  console.log(tokenHeader);
   try {
-    if (!talkerList.token) return res.status(401).json({ message: 'Token não encontrado' });
+    if (!tokenHeader) return res.status(401).json({ message: 'Token não encontrado' });
+    if (tokenHeader > 6) return res.status(401).json({ message: 'Token inválido' });
     const result = await talkerDB.insert(talkerList);
     if (result !== 'Arquivo escrito com sucesso!') {
       return res.status(400).json({ message: result });
