@@ -21,7 +21,13 @@ const insertValidationWatchedAt = (talkerList) => {
 };
 
 const insertValidationRate = (talkerList) => {
-  if (!talkerList.talk.rate) return 'O campo "rate" é obrigatório';
+  if (talkerList.talk.rate === undefined) {
+    return 'O campo "rate" é obrigatório';
+  }
+  if (talkerList.talk.rate > 5 || talkerList.talk.rate <= 0 
+    || !Number.isInteger(talkerList.talk.rate)) {
+    return 'O campo "rate" deve ser um número inteiro entre 1 e 5';
+  }
 };
 
 const mainVerification = (talkerList) => insertValidationsNameAndTalk(talkerList)
