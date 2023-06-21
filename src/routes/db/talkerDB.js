@@ -25,8 +25,7 @@ const insert = async (talkerList) => {
     json.push(list);
     const toString = JSON.stringify(json);
     await fs.writeFile(talker, toString);
-    return mainVerification(talkerList)
-    || list;
+    return mainVerification(talkerList) || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
   }
