@@ -70,8 +70,14 @@ const remove = async (id) => {
 };
 
 const searchTerm = (term) => {
-
-}
+  const data = fs.readFileSync(talker, 'utf8');
+  const personsData = JSON.parse(data);
+  const person = personsData.map((personTalker) => personTalker.name.includes(term) && personTalker)
+  .filter((a) => a !== false);
+  console.log(!term);
+  if (!term) return JSON.parse(data);
+  return person;
+};
 
 module.exports = {
   findAll,
