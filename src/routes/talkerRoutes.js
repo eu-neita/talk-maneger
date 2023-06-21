@@ -65,4 +65,20 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const tokenHeader = req.headers.authorization;
+  try {
+    if (!tokenHeader) return res.status(401).json({ message: 'Token não encontrado' });
+    if (tokenHeader.length !== 16) {
+      return res.status(401).json({ message: 'Token inválido' });
+    }
+    const result = await talkerDB.remove(id);
+    res.status(result.status).json(result.verify);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: `Esse erro ocorreu ao encontrar uma tarefa: ${err}` });
+  }
+});
+
 module.exports = router;
