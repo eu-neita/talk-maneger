@@ -69,10 +69,15 @@ const remove = async (id) => {
   }
 };
 
+const searchTerm = (term) => {
+
+}
+
 module.exports = {
   findAll,
   findById,
   insert,
   edit,
   remove,
+  searchTerm,
 };
