@@ -28,6 +28,10 @@ const insertValidationsAge = (talkerList) => {
   }
 };
 
+const insertValidationTalk = (talkerList) => {
+  if (!talkerList.talk) return 'O campo "talk" é obrigatório';
+};
+
 const insert = async (talkerList) => {
   try {
     const list = talkerList;
@@ -39,6 +43,7 @@ const insert = async (talkerList) => {
     await fs.writeFile(talker, toString);
     return insertValidationsName(talkerList)
     || insertValidationsAge(talkerList)
+    || insertValidationTalk(talkerList)
     || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
