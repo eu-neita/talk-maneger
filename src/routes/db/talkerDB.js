@@ -22,10 +22,8 @@ const insertValidationsName = (talkerList) => {
 
 const insertValidationsAge = (talkerList) => {
   if (!talkerList.age) return 'O campo "age" é obrigatório';
-  if (typeof talkerList.age !== 'number') {
-  return 'O campo "age" deve ser um número inteiro igual ou maior que 18';
-  }
-  if (!Number.isInteger(talkerList.age)) {
+  if (typeof talkerList.age !== 'number' 
+  || talkerList.age < 18 || !Number.isInteger(talkerList.age)) {
   return 'O campo "age" deve ser um número inteiro igual ou maior que 18';
   }
 };
@@ -39,7 +37,9 @@ const insert = async (talkerList) => {
     json.push(list);
     const toString = JSON.stringify(json);
     await fs.writeFile(talker, toString);
-    return insertValidationsName(talkerList) || insertValidationsAge(talkerList) || list;
+    return insertValidationsName(talkerList)
+    || insertValidationsAge(talkerList)
+    || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
   }
