@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const mainVerification = require('./mainVerifications');
 
 const talker = path.join(__dirname, '../../talker.json');
 
@@ -15,24 +16,6 @@ const findById = (id) => {
   return person;
 };
 
-const insertValidationsNameAndTalk = (talkerList) => {
-  if (!talkerList.name) return 'O campo "name" é obrigatório';
-  if (talkerList.name.length < 3) return 'O "name" deve ter pelo menos 3 caracteres';
-  if (!talkerList.talk) return 'O campo "talk" é obrigatório';
-};
-
-const insertValidationsAge = (talkerList) => {
-  if (!talkerList.age) return 'O campo "age" é obrigatório';
-  if (typeof talkerList.age !== 'number' 
-  || talkerList.age < 18 || !Number.isInteger(talkerList.age)) {
-  return 'O campo "age" deve ser um número inteiro igual ou maior que 18';
-  }
-};
-
-const insertValidationWatchedAt = (talkerList) => {
-  if (!talkerList.talk.watchedAt) return 'O campo "watchedAt" é obrigatório';
-};
-
 const insert = async (talkerList) => {
   try {
     const list = talkerList;
@@ -42,9 +25,7 @@ const insert = async (talkerList) => {
     json.push(list);
     const toString = JSON.stringify(json);
     await fs.writeFile(talker, toString);
-    return insertValidationsNameAndTalk(talkerList)
-    || insertValidationsAge(talkerList)
-    || insertValidationWatchedAt(talkerList)
+    return mainVerification(talkerList)
     || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
