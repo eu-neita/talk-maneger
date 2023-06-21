@@ -18,7 +18,16 @@ const findById = (id) => {
 const insertValidationsName = (talkerList) => {
   if (!talkerList.name) return 'O campo "name" é obrigatório';
   if (talkerList.name.length < 3) return 'O "name" deve ter pelo menos 3 caracteres';
+};
+
+const insertValidationsAge = (talkerList) => {
   if (!talkerList.age) return 'O campo "age" é obrigatório';
+  if (typeof talkerList.age !== 'number') {
+  return 'O campo "age" deve ser um número inteiro igual ou maior que 18';
+  }
+  if (!Number.isInteger(talkerList.age)) {
+  return 'O campo "age" deve ser um número inteiro igual ou maior que 18';
+  }
 };
 
 const insert = async (talkerList) => {
@@ -30,7 +39,7 @@ const insert = async (talkerList) => {
     json.push(list);
     const toString = JSON.stringify(json);
     await fs.writeFile(talker, toString);
-    return insertValidationsName(talkerList) || list;
+    return insertValidationsName(talkerList) || insertValidationsAge(talkerList) || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
   }
