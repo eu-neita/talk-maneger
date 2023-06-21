@@ -43,9 +43,11 @@ const edit = async (talkerEdited, id) => {
       removePerson.push(talkerEditedID);
       const toString = JSON.stringify(removePerson);
       await fsr.writeFile(talker, toString);
-      return mainVerification(talkerEdited) || talkerEditedID;
+      const filter = mainVerification(talkerEdited);
+      if (filter !== undefined) return { verify: `${filter}`, status: 400 };
+      return talkerEditedID;
     } 
-    return `O id ${id} não existe no array`;
+    return { verify: 'Pessoa palestrante não encontrada', status: 404 };
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
   }

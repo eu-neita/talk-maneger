@@ -55,7 +55,9 @@ router.put('/:id', async (req, res) => {
       return res.status(401).json({ message: 'Token inválido' });
     }
     const result = await talkerDB.edit(talkerEdited, id);
-    if (typeof result === 'string') return res.status(400).json({ message: result });
+    if (result.verify !== undefined) {
+      return res.status(result.status).json({ message: result.verify }); 
+    }
     res.status(200).json(result);
   } catch (err) {
     console.log(err);
