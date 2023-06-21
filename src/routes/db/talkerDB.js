@@ -15,21 +15,22 @@ const findById = (id) => {
   return person;
 };
 
-const insertValidations = (talkerList) => {
+const insertValidationsName = (talkerList) => {
   if (!talkerList.name) return 'O campo "name" é obrigatório';
+  if (talkerList.name.length < 3) return 'O "name" deve ter pelo menos 3 caracteres';
   if (!talkerList.age) return 'O campo "age" é obrigatório';
-  // if (!talkerList.age) return 'O campo "name" é obrigatório';
 };
 
 const insert = async (talkerList) => {
   try {
-    insertValidations(talkerList);
+    const list = talkerList;
     const data = await fs.readFile(talker, 'utf8');
     const json = JSON.parse(data);
-    json.push(talkerList);
+    list.id = json.length + 1;
+    json.push(list);
     const toString = JSON.stringify(json);
     await fs.writeFile(talker, toString);
-    return 'Arquivo escrito com sucesso!';
+    return insertValidationsName(talkerList) || list;
   } catch (err) {
     console.error(`Erro ao escrever o arquivo: ${err.message}`);
   }
