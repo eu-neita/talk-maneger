@@ -32,8 +32,20 @@ const insert = async (talkerList) => {
   }
 };
 
+const edit = async (talkerEdited, id) => {
+  try {
+    const data = await fsr.readFile(talker, 'utf8');
+    const json = JSON.parse(data);
+    json.map((person) => person.id === Number(id));
+    console.log(json.map((person) => person.id === Number(id)));
+  } catch (err) {
+    console.error(`Erro ao escrever o arquivo: ${err.message}`);
+  }
+}
+
 module.exports = {
   findAll,
   findById,
   insert,
+  edit,
 };

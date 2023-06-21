@@ -47,4 +47,19 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const talkerEdited = req.body;
+  try {
+    const result = await talkerDB.edit(talkerEdited, id);
+    // if (!result || result.length === 0) {
+    // res.status(404).json({ message: 'Pessoa palestrante não encontrada' }); 
+    // }
+    res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: `Esse erro ocorreu ao encontrar uma tarefa: ${err}` });
+  }
+});
+
 module.exports = router;
